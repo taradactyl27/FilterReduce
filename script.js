@@ -3,19 +3,37 @@ var data = '[{"females": 1808000, "country": "United States", "age": 0, "males":
 
 
 var dataList = JSON.parse(data);
-var maleList = dataList.map( function (x) { return x["males"] } ) ;
-var femaleList = dataList.map( function (x) { return x["females"]} );
-var totalList = dataList.map( function(x) { return x["total"] } );
-var elderly = dataList.filter( function(x){ return x["age"] > 60; });
+
+var totalList = dataList.map( function(x) { return x["total"] });
 var totalPop = totalList.reduce( function (x, y) {return x + y});
-var totalFemale = femaleList.reduce( function (x,y) { return x + y});
+
+var maleList = dataList.map( function (x) { return x["males"] });
 var totalMale = maleList.reduce(function (x,y) { return x + y});
-console.log(dataList);
-console.log(elderly);
-console.log(totalPop);
-console.log(totalFemale);
-console.log(totalMale);
-			       
 
+var femaleList = dataList.map( function (x) { return x["females"]});
+var totalFemale = femaleList.reduce( function (x,y) { return x + y});
 
+var elderly = dataList.filter( function(x){ return x["age"] >= 60; });
+var elderlyList = elderly.map( function(x) {  return x["total"] });
+var totalElderly = elderlyList.reduce( function (x,y) { return x + y});
 
+var children = dataList.filter( function(x){ return x["age"] <= 17; });
+var childrenList = children.map( function(x) {  return x["total"] });
+var totalChildren = childrenList.reduce( function (x,y) { return x + y});
+
+//console.log(dataList);
+//console.log(elderly);
+//console.log(totalPop);
+//console.log(totalFemale);
+//console.log(totalMale);
+
+var femalePercent = parseInt(totalFemale / totalPop * 100)
+var malePercent = parseInt(totalMale / totalPop * 100)
+var elderlyPercent = parseInt(totalElderly / totalPop * 100)
+var childrenPercent =  parseInt(totalChildren / totalPop * 100)
+
+document.getElementById("total").innerHTML += totalPop
+document.getElementById("female").innerHTML += totalFemale + ", ~" + femalePercent + "%"
+document.getElementById("male").innerHTML += totalMale +  ", ~" + malePercent + "%"
+document.getElementById("elderly").innerHTML += totalElderly + ", ~" + elderlyPercent + "%"
+document.getElementById("children").innerHTML += totalChildren + ", ~" + childrenPercent + "%"
